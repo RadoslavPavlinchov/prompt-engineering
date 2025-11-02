@@ -94,10 +94,7 @@ export function exportPromptsToFile(): void {
         type: "application/json",
     })
 
-    const ts = new Date()
-        .toISOString()
-        .replace(/[:]/g, "-")
-        .replace(/\..+/, "")
+    const ts = new Date().toISOString().replace(/[:]/g, "-").replace(/\..+/, "")
     const filename = `prompts-export-${ts}.json`
 
     const url = URL.createObjectURL(blob)
@@ -227,7 +224,11 @@ export async function analyzeImportFile(
     for (const p of prompts as Prompt[]) {
         const e = existingMap.get(p.id)
         if (e) {
-            conflicts.push({ id: p.id, existingTitle: e.title, incomingTitle: p.title })
+            conflicts.push({
+                id: p.id,
+                existingTitle: e.title,
+                incomingTitle: p.title,
+            })
         }
     }
 
@@ -263,7 +264,10 @@ export async function applyImport(
         result.errors.push("Unsupported version")
         return result
     }
-    if (!Array.isArray(payload.prompts) || !payload.prompts.every(validatePromptShape)) {
+    if (
+        !Array.isArray(payload.prompts) ||
+        !payload.prompts.every(validatePromptShape)
+    ) {
         result.errors.push("Invalid prompt data")
         return result
     }
@@ -303,9 +307,9 @@ export async function applyImport(
                 case "merge-duplicate":
                     {
                         // generate new id deterministically based on time + random
-                        const newId = `${incoming.id}-${Date.now().toString(36)}-${Math.random()
-                            .toString(36)
-                            .slice(2, 6)}`
+                        const newId = `${incoming.id}-${Date.now().toString(
+                            36
+                        )}-${Math.random().toString(36).slice(2, 6)}`
                         const dup: Prompt = { ...incoming, id: newId }
                         map.set(newId, dup)
                         next.push(dup)

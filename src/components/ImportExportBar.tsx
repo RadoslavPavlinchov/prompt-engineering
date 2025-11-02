@@ -19,7 +19,12 @@ import {
 } from "@mui/material"
 import UploadIcon from "@mui/icons-material/Upload"
 import DownloadIcon from "@mui/icons-material/Download"
-import { exportPromptsToFile, analyzeImportFile, applyImport, type ImportMode } from "@/utils/exportImport"
+import {
+    exportPromptsToFile,
+    analyzeImportFile,
+    applyImport,
+    type ImportMode,
+} from "@/utils/exportImport"
 import { getPrompts } from "@/utils/storage"
 
 interface Props {
@@ -33,8 +38,7 @@ export default function ImportExportBar({ onDataChanged }: Props) {
     const [error, setError] = React.useState<string | null>(null)
 
     const [analysis, setAnalysis] = React.useState<
-        | null
-        | (Awaited<ReturnType<typeof analyzeImportFile>> & { file: File })
+        null | (Awaited<ReturnType<typeof analyzeImportFile>> & { file: File })
     >(null)
 
     const [mode, setMode] = React.useState<ImportMode>("merge-skip")
@@ -73,9 +77,7 @@ export default function ImportExportBar({ onDataChanged }: Props) {
                 setMode("merge-skip")
             }
         } catch (err) {
-            setError(
-                err instanceof Error ? err.message : "Failed to read file"
-            )
+            setError(err instanceof Error ? err.message : "Failed to read file")
             setAnalysis(null)
             setDialogOpen(false)
         } finally {
@@ -101,9 +103,7 @@ export default function ImportExportBar({ onDataChanged }: Props) {
                 `Import complete: ${res.imported} added, ${res.overwritten} overwritten, ${res.skipped} skipped, ${res.duplicated} duplicated.`
             )
         } catch (e) {
-            setError(
-                e instanceof Error ? e.message : "Failed to apply import"
-            )
+            setError(e instanceof Error ? e.message : "Failed to apply import")
         } finally {
             setBusy(false)
         }
@@ -161,14 +161,13 @@ export default function ImportExportBar({ onDataChanged }: Props) {
                     {analysis && (
                         <>
                             <DialogContentText sx={{ mb: 2 }}>
-                                File contains {analysis.analysis.importedCount}
-                                {" "}
+                                File contains {analysis.analysis.importedCount}{" "}
                                 prompts. Version {analysis.analysis.version}.
                             </DialogContentText>
 
                             {analysis.analysis.hasInternalDuplicates && (
                                 <Alert severity="warning" sx={{ mb: 2 }}>
-                                    This file contains duplicate IDs: {" "}
+                                    This file contains duplicate IDs:{" "}
                                     {analysis.analysis.duplicateIds?.join(", ")}
                                 </Alert>
                             )}
@@ -184,18 +183,30 @@ export default function ImportExportBar({ onDataChanged }: Props) {
                             {analysis.analysis.conflicts &&
                                 analysis.analysis.conflicts.length > 0 && (
                                     <>
-                                        <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                                        <Typography
+                                            variant="subtitle2"
+                                            sx={{ mb: 1 }}
+                                        >
                                             Conflicts
                                         </Typography>
-                                        <List dense sx={{ maxHeight: 200, overflow: "auto", mb: 2 }}>
-                                            {analysis.analysis.conflicts.map((c) => (
-                                                <ListItem key={c.id}>
-                                                    <ListItemText
-                                                        primary={`ID ${c.id}`}
-                                                        secondary={`Existing: ${c.existingTitle} | Incoming: ${c.incomingTitle}`}
-                                                    />
-                                                </ListItem>
-                                            ))}
+                                        <List
+                                            dense
+                                            sx={{
+                                                maxHeight: 200,
+                                                overflow: "auto",
+                                                mb: 2,
+                                            }}
+                                        >
+                                            {analysis.analysis.conflicts.map(
+                                                (c) => (
+                                                    <ListItem key={c.id}>
+                                                        <ListItemText
+                                                            primary={`ID ${c.id}`}
+                                                            secondary={`Existing: ${c.existingTitle} | Incoming: ${c.incomingTitle}`}
+                                                        />
+                                                    </ListItem>
+                                                )
+                                            )}
                                         </List>
                                     </>
                                 )}
@@ -234,10 +245,17 @@ export default function ImportExportBar({ onDataChanged }: Props) {
                     )}
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setDialogOpen(false)} disabled={busy}>
+                    <Button
+                        onClick={() => setDialogOpen(false)}
+                        disabled={busy}
+                    >
                         Cancel
                     </Button>
-                    <Button onClick={handleApply} disabled={busy} variant="contained">
+                    <Button
+                        onClick={handleApply}
+                        disabled={busy}
+                        variant="contained"
+                    >
                         {busy ? "Importing…" : "Import"}
                     </Button>
                 </DialogActions>
