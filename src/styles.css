@@ -1,0 +1,12 @@
+/* Basic global styles to complement MUI dark theme */
+html,
+body,
+#root {
+    height: 100%;
+}
+body {
+    margin: 0;
+}
+* {
+    box-sizing: border-box;
+}
