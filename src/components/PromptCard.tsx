@@ -8,6 +8,8 @@ import {
     Tooltip,
     Stack,
     Rating,
+    Chip,
+    Divider,
 } from "@mui/material"
 import DeleteIcon from "@mui/icons-material/DeleteOutline"
 import type { Prompt } from "@/types"
@@ -16,6 +18,7 @@ import {
     setRating as setStoredRating,
 } from "@/utils/storage"
 import NotesSection from "@/components/NotesSection"
+import { formatHuman } from "@/utils/metadata"
 
 interface Props {
     prompt: Prompt
@@ -80,6 +83,40 @@ export default function PromptCard({ prompt, onDelete }: Props) {
                     {preview(prompt.content)}
                 </Typography>
 
+                {prompt.metadata && (
+                    <>
+                        <Divider sx={{ my: 1.5 }} />
+                        <Stack direction="row" spacing={1} flexWrap="wrap">
+                            <Chip
+                                size="small"
+                                label={`Model: ${prompt.metadata.model}`}
+                                color="default"
+                            />
+                            <Chip
+                                size="small"
+                                label={`Created: ${formatHuman(
+                                    prompt.metadata.createdAt
+                                )}`}
+                                variant="outlined"
+                            />
+                            <Chip
+                                size="small"
+                                label={`Updated: ${formatHuman(
+                                    prompt.metadata.updatedAt
+                                )}`}
+                                variant="outlined"
+                            />
+                            <Chip
+                                size="small"
+                                label={`Tokens: ${prompt.metadata.tokenEstimate.min}-${prompt.metadata.tokenEstimate.max}`}
+                                color={confidenceColor(
+                                    prompt.metadata.tokenEstimate.confidence
+                                )}
+                            />
+                        </Stack>
+                    </>
+                )}
+
                 {/* Notes section for this prompt */}
                 <NotesSection promptId={prompt.id} />
             </CardContent>
@@ -96,4 +133,16 @@ export default function PromptCard({ prompt, onDelete }: Props) {
             </CardActions>
         </Card>
     )
+}
+
+function confidenceColor(conf: "high" | "medium" | "low") {
+    switch (conf) {
+        case "high":
+            return "success"
+        case "medium":
+            return "warning"
+        case "low":
+        default:
+            return "error"
+    }
 }
