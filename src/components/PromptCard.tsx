@@ -1,3 +1,4 @@
+import React from "react"
 import {
     Card,
     CardContent,
@@ -6,9 +7,15 @@ import {
     IconButton,
     Tooltip,
     Stack,
+    Rating,
 } from "@mui/material"
 import DeleteIcon from "@mui/icons-material/DeleteOutline"
 import type { Prompt } from "@/types"
+import {
+    getRating as getStoredRating,
+    setRating as setStoredRating,
+} from "@/utils/storage"
+import NotesSection from "@/components/NotesSection"
 
 interface Props {
     prompt: Prompt
@@ -22,6 +29,21 @@ function preview(content: string, words = 12): string {
 }
 
 export default function PromptCard({ prompt, onDelete }: Props) {
+    const [rating, setRating] = React.useState<number>(0)
+
+    React.useEffect(() => {
+        setRating(getStoredRating(prompt.id))
+    }, [prompt.id])
+
+    const handleRatingChange = (
+        _event: React.SyntheticEvent<Element, Event>,
+        value: number | null
+    ) => {
+        const next = value === rating ? 0 : value ?? 0
+        setRating(next)
+        setStoredRating(prompt.id, next)
+    }
+
     return (
         <Card
             variant="outlined"
@@ -37,6 +59,19 @@ export default function PromptCard({ prompt, onDelete }: Props) {
                     <Typography variant="h6" sx={{ pr: 1 }}>
                         {prompt.title}
                     </Typography>
+                    <Tooltip
+                        title={
+                            rating ? `Rated ${rating}/5` : "Rate this prompt"
+                        }
+                    >
+                        <Rating
+                            value={rating}
+                            onChange={handleRatingChange}
+                            max={5}
+                            size="small"
+                            aria-label={`Rate ${prompt.title}`}
+                        />
+                    </Tooltip>
                 </Stack>
                 <Typography
                     variant="body2"
@@ -44,6 +79,9 @@ export default function PromptCard({ prompt, onDelete }: Props) {
                 >
                     {preview(prompt.content)}
                 </Typography>
+
+                {/* Notes section for this prompt */}
+                <NotesSection promptId={prompt.id} />
             </CardContent>
             <CardActions sx={{ justifyContent: "flex-end" }}>
                 <Tooltip title="Delete prompt">
