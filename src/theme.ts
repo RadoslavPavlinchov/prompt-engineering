@@ -34,8 +34,8 @@ const theme = createTheme({
                 "Monaco",
                 "monospace",
             ].join(","),
-        },
-    } as any,
+        } as any,
+    },
     shape: { borderRadius: 10 },
     components: {
         MuiCard: {
