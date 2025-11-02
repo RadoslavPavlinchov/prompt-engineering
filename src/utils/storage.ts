@@ -66,3 +66,8 @@ export function setRating(promptId: string, rating: number) {
     }
     writeRatings(map)
 }
+
+// Expose a read-only view for computing statistics in export flows
+export function getAllRatingsMap(): Readonly<Record<string, number>> {
+    return readRatings()
+}

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-import { Grid, Stack, Typography } from "@mui/material"
+import { Grid, Stack, Typography, Divider } from "@mui/material"
 import PromptForm from "@/components/PromptForm"
 import PromptCard from "@/components/PromptCard"
 import type { Prompt } from "@/types"
@@ -9,6 +9,7 @@ import {
     savePrompt as saveToStorage,
 } from "@/utils/storage"
 import { trackModel, estimateTokens } from "@/utils/metadata"
+import ImportExportBar from "@/components/ImportExportBar"
 
 export default function Home() {
     const [prompts, setPrompts] = useState<Prompt[]>([])
@@ -87,6 +88,13 @@ export default function Home() {
                 >
                     Saved prompts ({prompts.length})
                 </Typography>
+                <ImportExportBar
+                    onDataChanged={() => {
+                        // refresh from storage after import/export if needed
+                        setPrompts(getPrompts())
+                    }}
+                />
+                <Divider sx={{ my: 1.5 }} />
                 {hasPrompts ? (
                     <Grid container spacing={2}>
                         {sortDesc(prompts).map((p) => (

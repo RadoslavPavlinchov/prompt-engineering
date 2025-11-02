@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "exportedAt": "2025-11-02T17:55:32.224Z",
+  "stats": {
+    "totalPrompts": 4,
+    "averageRating": 5,
+    "mostUsedModel": "GPT-5"
+  },
+  "prompts": [
+    {
+      "id": "3d34cb04-e694-44d4-b8b9-9421dcdb2b56",
+      "title": "Zero Shot Prompt",
+      "content": "ASDADAD",
+      "createdAt": 1762102284391,
+      "metadata": {
+        "model": "GPT-5",
+        "createdAt": "2025-11-02T16:51:24.390Z",
+        "updatedAt": "2025-11-02T16:51:24.390Z",
+        "tokenEstimate": {
+          "min": 0,
+          "max": 2,
+          "confidence": "high"
+        }
+      }
+    },
+    {
+      "id": "6c5beafd-5b54-463b-be86-6b4de5e0f381",
+      "title": "Zero Shot Prompt 123",
+      "content": "sasdasag",
+      "createdAt": 1762082846007
+    },
+    {
+      "id": "b9688732-4f9c-418d-b86a-a72cbb46c574",
+      "title": "One Shot Prompting",
+      "content": "You are helping develop a prompt library application. Here's an example of how to analyze and implement a new feature:\n\n**EXAMPLE:** Feature Request: \"Add a favorites/bookmarking system\"\n\nImplementation Plan:\n\n1. **User Story**: As a user, I want to mark prompts as favorites so I can quickly access my most-used prompts without scrolling through the entire library.\n2. **Technical Requirements**:\n    - Add a heart/bookmark icon to each prompt card\n    - Store favorite status in localStorage or database\n    - Create a filter to show only favorited prompts\n    - Visual indicator when a prompt is favorited (filled vs outlined icon)\n3. **Code Structure**:\n\ntypescript\n// Data model update\nprompt = {\n  id: 'prompt-123',\n  title: 'Marketing Email Generator',\n  content: '...',\n  isFavorite: false,  // New field\n  createdAt: '2024-01-15',\n  rating: 4.5\n}\n\n// Toggle favorite function\nfunction toggleFavorite(promptId) {\n  const prompt = prompts.find(p => p.id === promptId);\n  prompt.isFavorite = !prompt.isFavorite;\n  saveToStorage(prompts);\n  updateUI();\n}\n\n4. **UI/UX Considerations**:\n    - Place favorite icon in consistent location (top-right of card)\n    - Use intuitive icons (heart or star)\n    - Provide visual feedback on click (animation/color change)\n    - Add \"Favorites\" filter tab in navigation\n\n---\n\n**YOUR TASK:** Analyze the following feature request using the EXACT same format as the example above (User Story, Technical Requirements with bullet points, Code Structure with JavaScript examples, and UI/UX Considerations).\n\nFeature Request: \"Add a 5-star rating component to rate prompt effectiveness\"",
+      "createdAt": 1762076842586
+    },
+    {
+      "id": "94eebd6c-a2a0-462a-a145-8c76f91e6329",
+      "title": "Zero Shot Prompt",
+      "content": "sadasd",
+      "createdAt": 1762072781121
+    }
+  ]
+}
